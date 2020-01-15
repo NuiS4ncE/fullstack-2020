@@ -5,9 +5,9 @@ import ReactDOM from 'react-dom'
 const Content = (props) => {
     return (
       <div>
-        <Part part={props.party1} exercises={props.exercisesy1}/>
-        <Part part={props.party2} exercises={props.exercisesy2}/>
-        <Part part={props.party3} exercises={props.exercisesy3}/>
+        <Part name={props.name1} exercises={props.exercises1} />
+        <Part name={props.name2} exercises={props.exercises2}/>
+        <Part name={props.name3} exercises={props.exercises3}/>
       </div>
     )
   }
@@ -22,7 +22,7 @@ const Content = (props) => {
 
   const Part = (props) => {
       return(
-          <p>Part number: {props.part}, number of points: {props.exercises} </p>
+          <p>{props.name}, {props.exercises} </p>
       )
   }
 
@@ -42,7 +42,7 @@ const App = () => {
   const exercises2 = 7
   const part3 = 'State of a component'
   const exercises3 = 14 */
-  const part1 = {
+ /* const part1 = {
     name: 'Fundamentals of React',
     exercises: 10
   }
@@ -53,17 +53,30 @@ const App = () => {
   const part3 = {
     name: 'State of a component',
     exercises: 14
-  }
+  } */
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
+  ]
   return (
     <div>
+      console.log(nomen1={parts[0].name})
       <Header course={course} />
       <Content content={Content}
-      party1={part1.name} exercisesy1={part1.exercises}
-      party2={part2.name} exercisesy2={part2.exercises}
-      party3={part3.exercises} exercisesy3={part3.exercises} />
-      <Total total={Total} 
-      points={part1.exercises + part2.exercises + part3.exercises}/>
-    </div>
+      name1={parts[0].name} exercises1={parts[0].exercises}
+      name2={parts[1].name} exercises2={parts[1].exercises}
+      name3={parts[2].name} exercises3={parts[2].exercises}/>
+      </div>
   )
 }
 
