@@ -70,7 +70,7 @@ const App = () => {
   ]
   return (
     <div>
-      console.log(nomen1={parts[0].name})
+
       <Header course={course} />
       <Content content={Content}
       name1={parts[0].name} exercises1={parts[0].exercises}
