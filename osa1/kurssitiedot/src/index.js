@@ -15,7 +15,9 @@ const Content = (props) => {
   const Header = (props) => {
       return(
           <div>
-            <h1>{props.course}</h1>
+            <h1>
+              {props.course}
+            </h1>
          </div> 
       )
   }
