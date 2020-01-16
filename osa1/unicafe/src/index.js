@@ -50,7 +50,7 @@ const App = () => {
                 neutral {neutral}
             </div>
             bad {bad}
-
+            
         </div>
     )
 }
