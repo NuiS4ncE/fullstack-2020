@@ -24,30 +24,38 @@ const Statistics = (props) => {
   const [average, setAverage] = useState(0)
   const [all, setAll] = useState(0)
   const [positive, setPositive] = useState(0)
-  return (
-    <div>
+  if (props.good === 0 && props.bad === 0 && 
+    props.neutral === 0) {
+    return (
+      <div>
+        No feedback given
+    </div>)
+  } else {
+    return (
       <div>
         <div>
           <div>
             <div>
               <div>
-                good {props.good}
+                <div>
+                  good {props.good}
+                </div>
+                neutral {props.neutral}
               </div>
-              neutral {props.neutral}
-            </div>
-            bad {props.bad}
+              bad {props.bad}
+            </div >
+            all {(props.good + props.bad + props.neutral)}
           </div >
-          all {(props.good + props.bad + props.neutral)}
+          positive {
+            (props.good + props.bad + props.neutral) === 0 ? 0 :
+              props.good / (props.good + props.bad + props.neutral)}
         </div >
-        positive {
-          (props.good + props.bad + props.neutral) === 0 ? 0 :
-            props.good / (props.good + props.bad + props.neutral)}
+        average {(props.bad + props.good + props.neutral)
+          === 0 ? 0 : (props.good - props.bad) /
+          (props.bad + props.good + props.neutral)}
       </div >
-      average {(props.bad + props.good + props.neutral)
-        === 0 ? 0 : (props.good - props.bad) /
-        (props.bad + props.good + props.neutral)}
-    </div >
-  )
+    )
+  }
 }
 
 
