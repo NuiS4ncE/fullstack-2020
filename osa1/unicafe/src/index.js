@@ -20,6 +20,36 @@ const Header = (props) => {
   )
 }
 
+const Statistics = (props) => {
+  const [average, setAverage] = useState(0)
+  const [all, setAll] = useState(0)
+  const [positive, setPositive] = useState(0)
+  return (
+    <div>
+      <div>
+        <div>
+          <div>
+            <div>
+              <div>
+                good {props.good}
+              </div>
+              neutral {props.neutral}
+            </div>
+            bad {props.bad}
+          </div >
+          all {(props.good + props.bad + props.neutral)}
+        </div >
+        positive {
+          (props.good + props.bad + props.neutral) === 0 ? 0 :
+            props.good / (props.good + props.bad + props.neutral)}
+      </div >
+      average {(props.bad + props.good + props.neutral)
+        === 0 ? 0 : (props.good - props.bad) /
+        (props.bad + props.good + props.neutral)}
+    </div >
+  )
+}
+
 
 const App = () => {
   // tallenna napit omaan tilaansa
@@ -28,42 +58,22 @@ const App = () => {
   const [bad, setBad] = useState(0)
   const fbheader = 'give feedback'
   const statheader = 'statistics'
-  const [average, setAverage] = useState(0)
-  const [all, setAll] = useState(0)
-  const [positive, setPositive] = useState(0)
 
   return (
+
     <div>
-      <div>
-        <div>
-          <div>
-            <div>
-              <div>
-                <div>
-                  <Header headery={fbheader} />
-                  <button onClick={() => setGood(good + 1)}>
-                    good
+      <Header headery={fbheader} />
+      <button onClick={() => setGood(good + 1)}>
+        good
             </button>
-                  <button onClick={() => setNeutral(neutral + 1)}>
-                    neutral
+      <button onClick={() => setNeutral(neutral + 1)}>
+        neutral
             </button>
-                  <button onClick={() => setBad(bad + 1)}>
-                    bad
+      <button onClick={() => setBad(bad + 1)}>
+        bad
             </button>
-                  <Header headery={statheader} />
-                </div>
-                good {good}
-              </div>
-              neutral {neutral}
-            </div>
-            bad {bad}
-          </div>
-          all {(good + bad + neutral)}
-        </div>
-        average {(bad + good + neutral) === 0 ? 0 : (good - bad) / (bad + good + neutral)}
-      </div>
-      positive {(good + bad + neutral) === 0 ? 0 :
-      good/(good + bad + neutral)}
+      <Header headery={statheader} />
+      <Statistics bad={bad} good={good} neutral={neutral} />
     </div>
   )
 }
