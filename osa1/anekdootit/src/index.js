@@ -2,23 +2,59 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const points = [0, 0, 0, 0, 0, 0]
-const copy = {...points}
+const copy = { ...points }
+
 
 const App = (props) => {
     const [selected, setSelected] = useState(0)
-    const [vote, setVote] = useState(0)
+    return (
+        <div>
+            <Header header='Anecdote of the day' />
+            <div>
+                {props.anecdotes[selected]}
+                <div>
+                    <div>
+                        has {copy[selected]} points
+                </div>
+                    <Button handleClick={() => copy[selected] += 1} text="vote"></Button>
+                    <Button handleClick={() => setSelected(Randomize())} text="next anecdote"></Button>
+                </div>
+                <div>
+                    <Header header='Anecdote with most votes' />
+                </div>
+                <div>
+                    {anecdotes[savenum]}
+                    <div>
+                        has {MaxArray()} votes
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
 
+var savenum = 0
+
+const MaxArray = () => {
+    var maxnum = 0
+    for (var i = 0; i <= maxnum; i++) {
+        if (copy[i] > maxnum) {
+            maxnum = copy[i]
+            savenum = i
+        }
+    }
+    return (
+        maxnum
+    )
+}
+
+const Header = (props) => {
 
     return (
         <div>
-            {props.anecdotes[selected]}
-            <div>
-                <div>
-                    has {copy[selected]} points
-                </div>
-                <Button handleClick={() => copy[selected] += 1}  text="vote"></Button>
-                <Button handleClick={() => setSelected(Randomize())} text="next anecdote"></Button>
-            </div>
+            <h1>
+                {props.header}
+            </h1>
         </div>
     )
 }
