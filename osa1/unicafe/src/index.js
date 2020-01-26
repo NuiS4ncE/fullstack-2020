@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const Button = (props) => {
-  const { handleClick} = props
+  const { handleClick } = props
   return (
     <button onClick={handleClick}>
       {props.text}
@@ -23,9 +23,28 @@ const Header = (props) => {
 const StatisticLine = (props) => {
 
   return (
-    <div>
-      {props.text} {props.value} 
-    </div>
+    <table>
+      <tbody>
+        <tr>
+          <td>{props.text1}</td><td>{props.value1}</td>
+        </tr>
+        <tr>
+          <td>{props.text2}</td><td>{props.value2}</td>
+        </tr>
+        <tr>
+          <td>{props.text3}</td><td>{props.value3}</td>
+        </tr>
+        <tr>
+          <td>{props.text4}</td><td>{props.value4}</td>
+        </tr>
+        <tr>
+          <td>{props.text5}</td><td>{props.value5}</td>
+        </tr>
+        <tr>
+          <td>{props.text6}</td><td>{props.value6}</td>
+        </tr>
+      </tbody>
+    </table>
   )
 }
 
@@ -40,15 +59,15 @@ const Statistics = (props) => {
   } else {
     return (
       <div>
-        <StatisticLine text="good" value={props.good} />
-        <StatisticLine text="bad" value={props.bad} />
-        <StatisticLine text="neutral" value={props.neutral} />
-        <StatisticLine text="all" value={(props.good + props.bad + props.neutral)} />
-        <StatisticLine text="average" value={(props.bad + props.good + props.neutral)
-          === 0 ? 0 : (props.good - props.bad) /
-          (props.bad + props.good + props.neutral)} />
-        <StatisticLine text="positive" value={(props.good + props.bad + props.neutral) === 0 ? 0 :
-          props.good / (props.good + props.bad + props.neutral)} />
+        <StatisticLine text1="good" value1={props.good}
+          text2="bad" value2={props.bad}
+          text3="neutral" value3={props.neutral}
+          text4="all" value4={(props.good + props.bad + props.neutral)}
+          text5="average" value5={(props.bad + props.good + props.neutral)
+            === 0 ? 0 : (props.good - props.bad) /
+            (props.bad + props.good + props.neutral)}
+          text6="positive" value6={(props.good + props.bad + props.neutral) === 0 ? 0 :
+            props.good / (props.good + props.bad + props.neutral)} />
       </div>
     )
   }
@@ -62,7 +81,7 @@ const App = () => {
   const [bad, setBad] = useState(0)
   const fbheader = 'give feedback'
   const statheader = 'statistics'
-  
+
   return (
 
     <div>
