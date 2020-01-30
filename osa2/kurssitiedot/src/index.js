@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 const Course = ({ course }) => {
 
   return (
-    //TODO map-funktio taulukon käsittelyssä
     <div>
       <Header course={course.name} />
       <Content content={course} />
@@ -40,14 +39,12 @@ const Total = (props) => {
 }
 
 
-const Part = ( props) => {
+const Part = (props) => {
   return (
     <div>
-      <ol>
-      {props.course.parts.map(course => <li>
-        {course.name} {course.exercises}
-      </li>)}
-    </ol> 
+        {props.course.parts.map(course => <p key={course.id}>
+          {course.name} {course.exercises}
+        </p>)}      
     </div>
   )
 }
@@ -74,8 +71,7 @@ const App = () => {
       }
     ]
   }
-  const result = course.parts.map(course => course.name)
-  console.log(result)
+
   return (
     <div>
       <Course course={course} />
