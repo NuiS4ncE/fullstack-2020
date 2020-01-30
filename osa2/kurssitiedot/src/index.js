@@ -7,19 +7,18 @@ const Course = ({ course }) => {
     //TODO map-funktio taulukon käsittelyssä
     <div>
       <Header course={course.name} />
-      <Content content={course.parts} />
+      <Content content={course} />
       <Total total={course.parts} />
     </div>
   )
 
 }
+
 const Content = (props) => {
 
   return (
     <div>
-      <Part name={props.content[0].name} exercises={props.content[0].exercises} />
-      <Part name={props.content[1].name} exercises={props.content[1].exercises} />
-      <Part name={props.content[2].name} exercises={props.content[2].exercises} />
+      <Part course={props.content} />
     </div>
   )
 }
@@ -41,31 +40,42 @@ const Total = (props) => {
 }
 
 
-const Part = (props) => {
+const Part = ( props) => {
   return (
-    <p>{props.name}, {props.exercises} </p>
+    <div>
+      <ol>
+      {props.course.parts.map(course => <li>
+        {course.name} {course.exercises}
+      </li>)}
+    </ol> 
+    </div>
   )
 }
 
 const App = () => {
   const course = {
     name: 'Half Stack application development',
+    id: 1,
     parts: [
       {
         name: 'Fundamentals of React',
-        exercises: 10
+        exercises: 10,
+        id: 1
       },
       {
         name: 'Using props to pass data',
-        exercises: 7
+        exercises: 7,
+        id: 2
       },
       {
         name: 'State of a component',
-        exercises: 14
+        exercises: 14,
+        id: 3
       }
     ]
   }
-
+  const result = course.parts.map(course => course.name)
+  console.log(result)
   return (
     <div>
       <Course course={course} />
