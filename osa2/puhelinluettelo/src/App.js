@@ -28,15 +28,6 @@ const App = () => {
     setNewName(event.target.value)
   }
 
-  const addNumber = (event) => {
-    event.preventDefault()
-
-    const numberObject = {
-      number : newNumber
-    }
-    setPersons(persons.concat(numberObject))
-    setNewName('')
-  }
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   }
