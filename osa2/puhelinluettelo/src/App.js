@@ -27,17 +27,34 @@ const Filter = (props) => {
 const PersonForm = (props) => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const personer = props.persons.find(n => n.name === newName)
+  const changedPerson = { ...personer }
+  console.log(personer)
 
+  const nameObject = {
+    name: newName,
+    number: newNumber
+  }
+  console.log()
   const addNameNumber = (event) => {
     event.preventDefault()
     if (props.persons.map((person) => person.name).includes(newName)) {
-      window.alert(`${newName} is already added to phonebook`)
-    } else {
-      const nameObject = {
-        name: newName,
-        number: newNumber
+      const result = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+      if (result) {
+        personService
+          .update(changedPerson.id, nameObject)
+          .then(returnedPerson => {
+            props.setPersons(props.persons.map(person => person.id !== returnedPerson.id ? person : returnedPerson))
+          })
+          .catch(error => {
+            alert(
+              `the person '${props.person.name}' was already deleted from server`
+            )
+            props.setPersons(props.persons.filter(n => n.id !== props.persons.id))
+          })
       }
-
+    } else {
+     
       personService
         .create(nameObject)
         .then(response => {
@@ -82,14 +99,14 @@ const Persons = (props) => {
       return (
         setFiltertoShow.map((person) =>
           <p key={person.name}>
-            {person.name} {person.number} <RemoveButton persons={props.persons} setPersons={props.setPersons}/>
+            {person.name} {person.number} <RemoveButton persons={props.persons} setPersons={props.setPersons} />
           </p>
         ))
     } else {
       return (
         props.persons.map((person) =>
           <p key={person.name}>
-            {person.name} {person.number} <RemoveButton persons={props.persons} setPersons={props.setPersons} person={person}/>
+            {person.name} {person.number} <RemoveButton persons={props.persons} setPersons={props.setPersons} person={person} />
           </p>
         ))
     }
@@ -100,20 +117,22 @@ const Persons = (props) => {
     </div>
   )
 
- 
+
 }
 
 const RemoveButton = (props) => {
 
-    return(<Button handleClick={() =>{ 
-      if(window.confirm(`Delete '${props.person.name}' ?`)){
+  return (<Button handleClick={() => {
+    if (window.confirm(`Delete '${props.person.name}' ?`)) {
       personService
-      .removePerson(props.person.id)
-      .catch(error => {
-        alert(`the person '${props.person.name}' was already deleted from server`)
+        .removePerson(props.person.id)
+        .catch(error => {
+          alert(`the person '${props.person.name}' was already deleted from server`)
+          props.setPersons(props.persons.filter(n => n.id !== props.person.id))
+        })
         props.setPersons(props.persons.filter(n => n.id !== props.person.id))
-      })}
-    }} text="delete"></Button> )
+      }
+  }} text="delete"></Button>)
 }
 
 const Button = (props) => {
@@ -145,7 +164,7 @@ const App = () => {
       <h3>add a new</h3>
       <PersonForm persons={persons} setPersons={setPersons} />
       <h3>Numbers</h3>
-      <Persons persons={persons} filter={addFilter} setPersons={setPersons}/>
+      <Persons persons={persons} filter={addFilter} setPersons={setPersons} />
     </div>
   )
 
