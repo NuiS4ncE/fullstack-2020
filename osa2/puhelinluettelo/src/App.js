@@ -74,8 +74,14 @@ const PersonForm = (props) => {
           setTimeout(() => {
             props.setErrorMessage(null)
           }, 5000)
+        }) 
+        .catch(error => {
+          alert(
+            `the person '${newName}' was already deleted from server`
+          )
+         
+          props.setPersons(props.persons.filter(n => n.id !== props.persons.id))
         })
-
 
     }
   }
