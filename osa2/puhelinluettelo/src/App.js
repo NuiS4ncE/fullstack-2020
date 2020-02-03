@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import personService from './services/persons'
 
 const Filter = (props) => {
@@ -38,16 +37,16 @@ const PersonForm = (props) => {
         name: newName,
         number: newNumber
       }
-      
-      personService
-      .create(nameObject)
-      .then(response => {
-        props.setPersons(props.persons.concat(response.data))
-        setNewName('')
-        setNewNumber('')
-      })
 
-      
+      personService
+        .create(nameObject)
+        .then(response => {
+          props.setPersons(props.persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+        })
+
+
     }
   }
   const handleNameChange = (event) => {
@@ -83,14 +82,14 @@ const Persons = (props) => {
       return (
         setFiltertoShow.map((person) =>
           <p key={person.name}>
-            {person.name} {person.number}
+            {person.name} {person.number} <RemoveButton persons={props.persons} setPersons={props.setPersons}/>
           </p>
         ))
     } else {
       return (
         props.persons.map((person) =>
           <p key={person.name}>
-            {person.name} {person.number}
+            {person.name} {person.number} <RemoveButton persons={props.persons} setPersons={props.setPersons} person={person}/>
           </p>
         ))
     }
@@ -101,6 +100,29 @@ const Persons = (props) => {
     </div>
   )
 
+ 
+}
+
+const RemoveButton = (props) => {
+
+    return(<Button handleClick={() =>{ 
+      if(window.confirm(`Delete '${props.person.name}' ?`)){
+      personService
+      .removePerson(props.person.id)
+      .catch(error => {
+        alert(`the person '${props.person.name}' was already deleted from server`)
+        props.setPersons(props.persons.filter(n => n.id !== props.person.id))
+      })}
+    }} text="delete"></Button> )
+}
+
+const Button = (props) => {
+  const { handleClick } = props
+  return (
+    <button onClick={handleClick}>
+      {props.text}
+    </button>
+  )
 }
 
 const App = () => {
@@ -109,10 +131,10 @@ const App = () => {
 
   useEffect(() => {
     personService
-    .getAll()
-    .then(response => {
-      setPersons(response.data)
-    })
+      .getAll()
+      .then(response => {
+        setPersons(response.data)
+      })
   }, [])
 
 
@@ -123,7 +145,7 @@ const App = () => {
       <h3>add a new</h3>
       <PersonForm persons={persons} setPersons={setPersons} />
       <h3>Numbers</h3>
-      <Persons persons={persons} filter={addFilter} />
+      <Persons persons={persons} filter={addFilter} setPersons={setPersons}/>
     </div>
   )
 
