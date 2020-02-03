@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import personService from './services/persons'
+import './index.css'
 
 const Filter = (props) => {
 
@@ -29,13 +30,12 @@ const PersonForm = (props) => {
   const [newNumber, setNewNumber] = useState('')
   const personer = props.persons.find(n => n.name === newName)
   const changedPerson = { ...personer }
-  console.log(personer)
 
   const nameObject = {
     name: newName,
     number: newNumber
   }
-  console.log()
+
   const addNameNumber = (event) => {
     event.preventDefault()
     if (props.persons.map((person) => person.name).includes(newName)) {
@@ -45,11 +45,18 @@ const PersonForm = (props) => {
           .update(changedPerson.id, nameObject)
           .then(returnedPerson => {
             props.setPersons(props.persons.map(person => person.id !== returnedPerson.id ? person : returnedPerson))
+            props.setErrorMessage(
+              `Number was changed for '${newName}' `
+            )
+            setTimeout(() => {
+              props.setErrorMessage(null)
+            }, 5000)
           })
           .catch(error => {
             alert(
-              `the person '${props.person.name}' was already deleted from server`
+              `the person '${newName}' was already deleted from server`
             )
+           
             props.setPersons(props.persons.filter(n => n.id !== props.persons.id))
           })
       }
@@ -61,6 +68,12 @@ const PersonForm = (props) => {
           props.setPersons(props.persons.concat(response.data))
           setNewName('')
           setNewNumber('')
+          props.setErrorMessage(
+            `Added '${newName}' `
+          )
+          setTimeout(() => {
+            props.setErrorMessage(null)
+          }, 5000)
         })
 
 
@@ -99,14 +112,14 @@ const Persons = (props) => {
       return (
         setFiltertoShow.map((person) =>
           <p key={person.name}>
-            {person.name} {person.number} <RemoveButton persons={props.persons} setPersons={props.setPersons} />
+            {person.name} {person.number} <RemoveButton persons={props.persons} setPersons={props.setPersons} setErrorMessage={props.setErrorMessage}/>
           </p>
         ))
     } else {
       return (
         props.persons.map((person) =>
           <p key={person.name}>
-            {person.name} {person.number} <RemoveButton persons={props.persons} setPersons={props.setPersons} person={person} />
+            {person.name} {person.number} <RemoveButton persons={props.persons} setPersons={props.setPersons} person={person} setErrorMessage={props.setErrorMessage}/>
           </p>
         ))
     }
@@ -119,7 +132,19 @@ const Persons = (props) => {
 
 
 }
+const Notification = ({ message }) => {
+  
+  if (message === null) {
+    return null
+  }
 
+  return (
+    <div className="error">
+      {message}
+    </div>
+  )
+  
+}
 const RemoveButton = (props) => {
 
   return (<Button handleClick={() => {
@@ -130,6 +155,12 @@ const RemoveButton = (props) => {
           alert(`the person '${props.person.name}' was already deleted from server`)
           props.setPersons(props.persons.filter(n => n.id !== props.person.id))
         })
+        props.setErrorMessage(
+          `'${props.person.name}' was deleted from server`
+        )
+        setTimeout(() => {
+          props.setErrorMessage(null)
+        }, 5000)
         props.setPersons(props.persons.filter(n => n.id !== props.person.id))
       }
   }} text="delete"></Button>)
@@ -147,6 +178,9 @@ const Button = (props) => {
 const App = () => {
   const [addFilter, setNewFilter] = useState('')
   const [persons, setPersons] = useState([])
+  const [errorMessage, setErrorMessage] = useState(null)
+
+  
 
   useEffect(() => {
     personService
@@ -160,11 +194,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <Filter filter={addFilter} setNewFilter={setNewFilter} />
       <h3>add a new</h3>
-      <PersonForm persons={persons} setPersons={setPersons} />
+      <PersonForm persons={persons} setPersons={setPersons} setErrorMessage={setErrorMessage} />
       <h3>Numbers</h3>
-      <Persons persons={persons} filter={addFilter} setPersons={setPersons} />
+      <Persons persons={persons} filter={addFilter} setPersons={setPersons} setErrorMessage={setErrorMessage} />
     </div>
   )
 
