@@ -60,12 +60,23 @@ const Countries = (props) => {
       country.name.toLowerCase().indexOf(props.inputFilter.toLowerCase()) !== -1)
     
     if (props.inputFilter !== '' || setFiltertoShow.length > 0 && setFiltertoShow.length < 10) {
+      if(setFiltertoShow.length < 2){
+        setFiltertoShow.map((country) => 
+        <p key={country.name}>
+      <h1>{country.name}</h1>
+        capital {country.capital}
+        population {country.population}
+        <h2>languages</h2>
+        
+        </p>
+        )
+      } else {
       return (
         setFiltertoShow.map((country) =>
           <p key={country.name}>
             {country.name}
           </p>)
-      )
+      ) }
     } else {
       return (
         props.countries.map((country) =>

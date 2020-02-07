@@ -54,7 +54,7 @@ const PersonForm = (props) => {
           })
           .catch(error => {
             alert(
-              `the person '${newName}' was already deleted from server`
+              `the person '${newName}' was already deleted from the server`
             )
            
             props.setPersons(props.persons.filter(n => n.id !== props.persons.id))
@@ -77,7 +77,7 @@ const PersonForm = (props) => {
         }) 
         .catch(error => {
           alert(
-            `the person '${newName}' was already deleted from server`
+            `the person '${newName}' was already deleted from the server`
           )
          
           props.setPersons(props.persons.filter(n => n.id !== props.persons.id))
