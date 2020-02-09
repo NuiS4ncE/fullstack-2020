@@ -30,6 +30,19 @@ let persons = [
 ]
 const date = new Date()
 
+app.use(morgan('combined', {
+    stream: fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+}))
+
+
+morgan.token('body', function (req, res) {
+    return JSON.stringify(req.body)
+})
+
+
+app.use(morgan(':method :url :status :response-time ms - :res[content-length] :body - :req[content-length]'))
+
+
 app.get('/info', (req, res) => {
     res.send(`Phonebook has info for ${persons.length} people <br> <br> ${date}`)
 })
@@ -93,17 +106,8 @@ app.delete('/api/persons/:id', (req, res) => {
     res.status(204).end()
 })
 
-app.use(morgan('combined', {
-    stream: fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
-}))
-/*
-app.get('/', function (req, res) {
-    res.send('hello, world!')
-})
-*/
-app.use(morgan('tiny', {
-    function(req, res) { return res + req }
-}))
+
+
 
 const PORT = 3001
 app.listen(PORT, () => {
