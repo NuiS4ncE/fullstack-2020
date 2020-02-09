@@ -1,5 +1,8 @@
 const express = require('express')
 const app = express()
+const fs = require('fs')
+const morgan = require('morgan')
+const path = require('path')
 
 app.use(express.json())
 
@@ -89,6 +92,18 @@ app.delete('/api/persons/:id', (req, res) => {
 
     res.status(204).end()
 })
+
+app.use(morgan('combined', {
+    stream: fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+}))
+/*
+app.get('/', function (req, res) {
+    res.send('hello, world!')
+})
+*/
+app.use(morgan('tiny', {
+    function(req, res) { return res + req }
+}))
 
 const PORT = 3001
 app.listen(PORT, () => {
