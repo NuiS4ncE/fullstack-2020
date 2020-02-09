@@ -46,27 +46,35 @@ app.get('/api/persons/:id', (req, res) => {
     } else {
         res.status(404).end()
     }
-}) 
+})
 
 const generateId = () => {
-    const maxId = persons.length > 0 
-    ? Math.max(...persons.map(n => n.id))
-    : 0 
+    const maxId = persons.length > 0
+        ? Math.max(...persons.map(n => n.id))
+        : 0
     return maxId + 1
 }
 
 app.post('/api/persons', (req, res) => {
     const body = req.body
-    
-    if(!body.content){
+
+    if (!body.number || !body.name) {
         return res.status(400).json({
             error: 'content missing'
         })
     }
-    
+
+    const name = body.name
+    const person2 = persons.find(person => person.name === name)
+    if (person2) {
+        return res.status(400).json({
+            error: 'name must be unique'
+        })
+    }
+
     const person = {
-        name: body.name, 
-        number: body.number, 
+        name: body.name,
+        number: body.number,
         id: generateId()
     }
 
@@ -78,23 +86,11 @@ app.post('/api/persons', (req, res) => {
 app.delete('/api/persons/:id', (req, res) => {
     const id = Number(req.params.id)
     persons = persons.filter(person1 => person1.id !== id)
-  
+
     res.status(204).end()
-  })
+})
 
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
-
-
-
-/*
-const app = http.createServer((req, res) => {
-    res.writeHead(200, {'Content-Type' : 'text/plain'})
-    res.end(JSON.stringify(persons))
-})
-
-const port = 3001
-app.listen(port)
-console.log(`Server running on port ${port}`) */
