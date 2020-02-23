@@ -4,15 +4,7 @@ const Blog = ({ blog }) => {
 
     return (
         <div>
-            <Content content={blog} />
-        </div>
-    )
-}
-
-const Content = (props) => {
-    return (
-        <div>
-            {props.blog}
+            {blog.title} {blog.author}
         </div>
     )
 }
