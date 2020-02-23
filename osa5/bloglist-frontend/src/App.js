@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import './index.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -44,7 +45,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong credentials')
+      setErrorMessage('wrong username or password')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -112,6 +113,14 @@ const App = () => {
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
         setNewTitle('')
+        setNewAuthor('')
+        setNewUrl('')
+        setErrorMessage(
+          `a new blog ${newTitle} by ${newAuthor} added`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
       })
   }
 
@@ -153,10 +162,20 @@ const App = () => {
       </div>
     </form>
   )
-
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+    return (
+      <div className="error">
+        {message}
+      </div>
+    )
+  }
 
   return (
     <div>
+      <Notification message={errorMessage} />
       <h2>blogs</h2>
       {user === null ?
         loginForm() :
