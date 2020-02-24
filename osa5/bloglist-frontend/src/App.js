@@ -3,6 +3,8 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import './index.css'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -99,6 +101,20 @@ const App = () => {
     )
   }
 
+  const blogForm = () => (
+    <Togglable buttonLabel='new note'>
+      <BlogForm
+        newTitle={newTitle}
+        newAuthor={newAuthor}
+        newUrl={newUrl}
+        handleTitleChange={({ target }) => setNewTitle(target.value)}
+        handleAuthorChange={({ target }) => setNewAuthor(target.value)}
+        handleUrlChange={({ target }) => setNewUrl(target.value)}
+        handleSubmit={addBlog}
+      />
+    </Togglable>
+  )
+
   const addBlog = (event) => {
     event.preventDefault()
     const blogObject = {
@@ -136,32 +152,7 @@ const App = () => {
     setNewUrl(event.target.value)
   }
 
-  const blogForm = () => (
-    <form onSubmit={addBlog}>
-      <h2>create new</h2>
-      <div>
-        <div>
-          title: <input
-            value={newTitle}
-            onChange={handleTitleChange}
-          />
-        </div>
-        <div>
-          author: <input
-            value={newAuthor}
-            onChange={handleAuthorChange}
-          />
-        </div>
-        <div>
-          url: <input
-            value={newUrl}
-            onChange={handleUrlChange}
-          />
-        </div>
-        <button type="submit">create</button>
-      </div>
-    </form>
-  )
+
   const Notification = ({ message }) => {
     if (message === null) {
       return null
