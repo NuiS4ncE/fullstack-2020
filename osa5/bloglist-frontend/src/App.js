@@ -185,6 +185,23 @@ const App = () => {
     )
   }
 
+  const BlogMapping = () => {
+    const bloggies = blogs.sort((a,b) => b.likes - a.likes)
+    const mappedBlogs = bloggies.map(blog =>
+      <Blog key={blog.id} blog={blog} 
+      addLike={() => addLikeOf(blog.id)}/>
+    )
+      return (
+        mappedBlogs
+      )
+  }
+   
+
+  const mappedBlogs = blogs.map(blog =>
+    <Blog key={blog.id} blog={blog} 
+    addLike={() => addLikeOf(blog.id)}/>
+  )
+
   return (
     <div>
       <Notification message={errorMessage} />
@@ -194,10 +211,7 @@ const App = () => {
         <div>
           {logoutForm()}
           {blogForm()}
-          {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} 
-            addLike={() => addLikeOf(blog.id)}/>
-          )}
+          {BlogMapping()}
         </div>
       }
     </div>
