@@ -94,10 +94,10 @@ const App = () => {
   const logoutForm = () => {
     return (
       <form onSubmit={handleLogout}>
-      <div>
-        {user.name} logged in
+        <div>
+          {user.name} logged in
           <button type="submit">logout</button>
-      </div>
+        </div>
       </form>
     )
   }
@@ -157,21 +157,21 @@ const App = () => {
 
   const addLikeOf = (id) => {
     const bloger = blogs.find(n => n.id === id)
-    const changedBlog = {...bloger, likes: bloger.likes +1}
-    
+    const changedBlog = { ...bloger, likes: bloger.likes + 1 }
+
     blogService
-    .update(changedBlog.id, changedBlog)
-    .then(returnedBlog => {
-      setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
-    })
-    .catch(error => {
-      setErrorMessage(
-        `Couldn't add a like to '${bloger.title}'`
-      )
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-    })
+      .update(changedBlog.id, changedBlog)
+      .then(returnedBlog => {
+        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
+      })
+      .catch(error => {
+        setErrorMessage(
+          `Couldn't add a like to '${bloger.title}'`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
   }
 
   const Notification = ({ message }) => {
@@ -185,22 +185,39 @@ const App = () => {
     )
   }
 
-  const BlogMapping = () => {
-    const bloggies = blogs.sort((a,b) => b.likes - a.likes)
-    const mappedBlogs = bloggies.map(blog =>
-      <Blog key={blog.id} blog={blog} 
-      addLike={() => addLikeOf(blog.id)}/>
-    )
-      return (
-        mappedBlogs
+  const removeBlogOf = (id) => {
+    const bloger = blogs.find(n => n.id === id)
+    const changedBlog = { ...bloger }
+    console.log(changedBlog.id)
+    if (window.confirm(`Delete '${changedBlog.title}' ?`)) {
+      blogService
+        .removeBlog(changedBlog.id)
+        .catch(error => {
+          alert(`the blog '${changedBlog.title}' was already removed from server`)
+          setBlogs(blogs.filter(n => n.id !== changedBlog.id))
+        })
+      setErrorMessage(
+        `'${changedBlog.title}' was deleted from the server`
       )
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+      setBlogs(blogs.filter(n => n.id !== changedBlog.id))
+    }
   }
-   
 
-  const mappedBlogs = blogs.map(blog =>
-    <Blog key={blog.id} blog={blog} 
-    addLike={() => addLikeOf(blog.id)}/>
-  )
+  const BlogMapping = () => {
+    const bloggies = blogs.sort((a, b) => b.likes - a.likes)
+    const mappedBlogs = bloggies.map(blog =>
+      <Blog key={blog.id} blog={blog}
+        addLike={() => addLikeOf(blog.id)}
+        removeBlog={() => removeBlogOf(blog.id)} />
+    )
+    return (
+      mappedBlogs
+    )
+  }
+
 
   return (
     <div>
