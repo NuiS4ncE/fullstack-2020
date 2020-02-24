@@ -93,16 +93,19 @@ const App = () => {
 
   const logoutForm = () => {
     return (
+      <form onSubmit={handleLogout}>
       <div>
-        <form onSubmit={handleLogout}>
+        {user.name} logged in
           <button type="submit">logout</button>
-        </form>
       </div>
+      </form>
     )
   }
 
+  const blogFormRef = React.createRef()
+
   const blogForm = () => (
-    <Togglable buttonLabel='new note'>
+    <Togglable buttonLabel='create new blog' ref={blogFormRef}>
       <BlogForm
         newTitle={newTitle}
         newAuthor={newAuthor}
@@ -123,7 +126,7 @@ const App = () => {
       author: newAuthor,
       user: user.id
     }
-
+    blogFormRef.current.toggleVisibility()
     blogService
       .create(blogObject)
       .then(returnedBlog => {
@@ -171,14 +174,13 @@ const App = () => {
       {user === null ?
         loginForm() :
         <div>
-          <p>{user.name} logged in </p> {logoutForm()}
+          {logoutForm()}
           {blogForm()}
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}
         </div>
       }
-
     </div>
   )
 }
