@@ -14,19 +14,19 @@ const blogForm = ({
     <h2>create new</h2>
     <div>
       <div>
-        title: <input
+          title: <input
           value={newTitle}
           onChange={handleTitleChange}
         />
       </div>
       <div>
-        author: <input
+          author: <input
           value={newAuthor}
           onChange={handleAuthorChange}
         />
       </div>
       <div>
-        url: <input
+          url: <input
           value={newUrl}
           onChange={handleUrlChange}
         />
