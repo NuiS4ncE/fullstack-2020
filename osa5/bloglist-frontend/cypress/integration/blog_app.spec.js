@@ -16,6 +16,30 @@ describe('Blog app', function () {
         cy.contains('username')
         cy.contains('password')
     })
+})
+
+    describe('Login', function(){
+    it('login form can be opened', function () {
+        cy.visit('http://localhost:3000')
+        cy.contains('login').click()
+    })
+
+    it('succeeds with correct credentials', function() {
+        cy.contains('login').click()
+        cy.get('#username').type('mluukkai')   
+        cy.get('#password').type('salainen')    
+        cy.get('#login-button').click()
+        cy.contains('Matti Luukkainen logged in')  
+        cy.get('#logout-button').click()
+    })
+
+    it('fails with wrong credentials', function(){
+        cy.get('#username').type('mluukkai')   
+        cy.get('#password').type('thisiscompletelywrong')    
+        cy.get('#login-button').click()
+
+        cy.contains('wrong username or password')
+    })
 
     /* beforeEach(function () {
         cy.visit('http://localhost:3000')
@@ -26,14 +50,6 @@ describe('Blog app', function () {
         cy.contains(`Log in to application`)
     })
 
-    it('login form can be opened', function () {
-        cy.visit('http://localhost:3000')
-        cy.contains('login').click()
-    })
-    it('user can log in', function() {
-        cy.contains('login').click()
-        cy.get('#username').type('mluukkai')   
-        cy.get('#password').type('wrong')    
-        cy.get('#login-button').click()
-        cy.contains('Matti Luukkainen logged in')  })*/
+    
+   */
 })
