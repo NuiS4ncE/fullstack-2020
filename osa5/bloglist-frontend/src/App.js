@@ -194,7 +194,7 @@ const App = () => {
         .removeBlog(changedBlog.id)
         .catch(error => {
           alert(`the blog '${changedBlog.title}' was already removed from server`)
-          setBlogs(blogs.filter(n => n.id !== changedBlog.id))
+          console.log(error)
         })
       setErrorMessage(
         `'${changedBlog.title}' was deleted from the server`
@@ -202,7 +202,7 @@ const App = () => {
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
-      setBlogs(blogs.filter(n => n.id !== changedBlog.id))
+      console.log(blogs)
     }
   }
 
