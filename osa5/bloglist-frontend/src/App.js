@@ -155,6 +155,24 @@ const App = () => {
     setNewUrl(event.target.value)
   }
 
+  const addLikeOf = (id) => {
+    const bloger = blogs.find(n => n.id === id)
+    const changedBlog = {...bloger.likes+1}
+    
+    blogService
+    .update(changedBlog.id, changedBlog)
+    .then(returnedBlog => {
+      setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog.likes))
+    })
+    .catch(error => {
+      setErrorMessage(
+        `Blog '${bloger.title}' was already removed from server`
+      )
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    })
+  }
 
   const Notification = ({ message }) => {
     if (message === null) {
@@ -177,7 +195,8 @@ const App = () => {
           {logoutForm()}
           {blogForm()}
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} 
+            addLike={() => addLikeOf(blog.id)}/>
           )}
         </div>
       }
