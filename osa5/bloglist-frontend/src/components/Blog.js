@@ -25,10 +25,9 @@ const Blog = ({ blog, addLike, removeBlog }) => {
 
     return (
         <div style={blogStyle}>
-            <div>
-                {blog.title} {blog.author}
-                {toggleBlog()}
-            </div>
+            {blog.title} {blog.author}
+
+            {toggleBlog()}
         </div>
     )
 
