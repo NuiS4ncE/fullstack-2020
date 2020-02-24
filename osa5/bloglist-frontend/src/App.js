@@ -157,16 +157,16 @@ const App = () => {
 
   const addLikeOf = (id) => {
     const bloger = blogs.find(n => n.id === id)
-    const changedBlog = {...bloger.likes+1}
+    const changedBlog = {...bloger, likes: bloger.likes +1}
     
     blogService
     .update(changedBlog.id, changedBlog)
     .then(returnedBlog => {
-      setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog.likes))
+      setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
     })
     .catch(error => {
       setErrorMessage(
-        `Blog '${bloger.title}' was already removed from server`
+        `Couldn't add a like to '${bloger.title}'`
       )
       setTimeout(() => {
         setErrorMessage(null)
