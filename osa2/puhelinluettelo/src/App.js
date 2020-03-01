@@ -159,7 +159,7 @@ const RemoveButton = (props) => {
         .removePerson(props.person.id)
         .catch(error => {
           alert(`the person '${props.person.name}' was already deleted from server`)
-          props.setPersons(props.persons.filter(n => n.id !== props.person.id))
+            props.setPersons(props.persons.filter(n => n.id !== props.person.id))
         })
         props.setErrorMessage(
           `'${props.person.name}' was deleted from server`
