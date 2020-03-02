@@ -9,7 +9,6 @@ const notificationReducer = (state = '', action) => {
         case 'SET_EMPTY':
             return ''
         case 'VOTE_NOTIFICATION':
-            console.log(action.notification)
             return [...state, `you voted ${action.data.anecdote} `]
         default:
             return state
