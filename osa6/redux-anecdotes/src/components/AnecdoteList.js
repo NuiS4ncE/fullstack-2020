@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { voteNotification } from '../reducers/notificationReducer'
+import Notification from './Notification'
 
 
 const AnecdoteList = () => {
@@ -9,9 +10,12 @@ const AnecdoteList = () => {
     const dispatch = useDispatch()
 
     const vote = (id) => {
-        //event.preventDefault()
-        console.log('vote', id)
-        dispatch(voteNotification(id))
+        //console.log('vote', id)
+        const anecdoteToChange = anecdotes.find(n => n.id === id)
+        dispatch(voteNotification(anecdoteToChange))
+        setTimeout(() => { 
+            dispatch(voteNotification(''))
+        }, 5000)
         dispatch(voteAnecdote(id))
     }
 
@@ -34,7 +38,14 @@ const AnecdoteList = () => {
         )
     }
     return (
-        <div>{anecdoteSort()}</div>
+
+        <div>
+            <Notification timeout={5000}/>
+            <div>
+                {anecdoteSort()}
+            </div>
+        </div>
+
     )
 }
 

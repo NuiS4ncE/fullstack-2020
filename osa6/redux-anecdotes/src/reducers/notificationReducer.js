@@ -1,37 +1,36 @@
 
 
-const notificationReducer = (state = 'ALL', action) => {
-    console.log('state now: ', state)
-    console.log('action', action)
+
+const notificationReducer = (state = '', action) => {
+    //console.log('state in notificationReducer: ', state)
+    //console.log('action in notificationReducer', action)
 
     switch (action.type) {
-        case 'NEW_ANECDOTE':
-            state = `you've created a new anecdote`
-            return state
-        case 'VOTE':
-            const id = action.data.id
-            const anecdoteVoted = state.find(n => n.id === id)
-            state = `you voted ${anecdoteVoted}`
-            return state
+        case 'SET_EMPTY':
+            return ''
+        case 'VOTE_NOTIFICATION':
+            console.log(action.notification)
+            return [...state, `you voted ${action.data.anecdote} `]
         default:
             return state
     }
 }
 
-export const newNotification = () => {
-
+export const voteNotification = (anecdote) => {
+    if (anecdote !== '') {
     return {
-        type: 'NEW_ANECDOTE'
-    }
-}
-
-export const voteNotification = (id) => {
-
-    return {
-        type: 'VOTE', 
+        type: 'VOTE_NOTIFICATION',
         data: {
-            id
+            anecdote: anecdote.content,
+            id: anecdote.id,
+            votes: anecdote.votes
         }
+    } 
+    }
+    else {
+       return {
+           type: 'SET_EMPTY'
+       } 
     }
 }
 
