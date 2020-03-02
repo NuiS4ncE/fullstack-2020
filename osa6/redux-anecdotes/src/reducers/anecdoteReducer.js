@@ -19,6 +19,8 @@
 
 //const initialState = anecdotesAtStart.map(asObject)
 
+import anecdoteService from '../services/anecdotes'
+
 const reducer = (state = [], action) => {
   //console.log('state in anecdoteReducer: ', state)
   //console.log('action in anecdoteReducer', action)
@@ -49,19 +51,26 @@ export const voteAnecdote = (id) => {
     data: { id }
   }
 }
-
-export const createAnecdote = (data) => {
+/*
+export const createAnecdote = content => {
   
-  return {
-    type: 'NEW_ANECDOTE',
-    data,
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNew(content)
+    dispatch({
+      type: 'NEW_ANECDOTE',
+      data: newAnecdote
+    })
   }
-}
+}*/
 
-export const initializeAnecdotes = (anecdotes) => {
-  return {
-    type: 'INIT_ANECDOTES',
-    data: anecdotes,
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+    console.log(anecdotes)
+    dispatch({
+      type: 'INIT_ANECDOTES',
+      data: anecdotes,
+    })
   }
 }
 

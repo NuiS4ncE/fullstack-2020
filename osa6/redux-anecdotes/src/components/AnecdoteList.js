@@ -21,8 +21,8 @@ const AnecdoteList = () => {
     const anecdoteSort = () => {
 
         const anecdotties = anecdotes.sort((a, b) => b.votes - a.votes)
-        const mappedAnecdotes = anecdotties.map(anecdote =>
-            <div key={anecdote.id}>
+        const mappedAnecdotes = anecdotties.map(anecdote => {
+            return (<div key={anecdote.id}>
                 <div>
                     {anecdote.content}
                 </div>
@@ -30,8 +30,8 @@ const AnecdoteList = () => {
                     has {anecdote.votes}
                     <button onClick={() => vote(anecdote.id)}>vote</button>
                 </div>
-            </div>
-        )
+            </div>);
+        })
         return (
             mappedAnecdotes
         )
