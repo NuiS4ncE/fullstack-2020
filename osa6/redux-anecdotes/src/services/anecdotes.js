@@ -17,4 +17,5 @@ const createNew = async (content) => {
   return response.data
 }
 
+
 export default { getAll, createNew }
