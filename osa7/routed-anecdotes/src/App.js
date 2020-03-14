@@ -6,7 +6,9 @@ import {
   Switch,
   Route,
   Link,
-  useParams
+  Prompt,
+  useParams,
+  useHistory
 } from "react-router-dom"
 
 const Menu = (props) => {
@@ -25,7 +27,7 @@ const Menu = (props) => {
           <Anecdote anecdotes={props.anecdotes} />
         </Route>
         <Route path="/create">
-          <CreateNew addNew={props.addNew} />
+          <CreateNew addNew={props.addNew} notification={props.notification}/>
         </Route>
         <Route path="/about">
           <About />
@@ -90,10 +92,12 @@ const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
-
+  //const history = useHistory()
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    
+  
     props.addNew({
       content,
       author,
@@ -102,8 +106,20 @@ const CreateNew = (props) => {
     })
   }
 
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+    return (
+      <div className="error">
+        {message}
+      </div>
+    )
+  }
+
   return (
     <div>
+      <Notification message={props.notification} />
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -144,11 +160,17 @@ const App = () => {
     }
   ])
 
+
+
   const [notification, setNotification] = useState('')
 
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`a new anecdote ${anecdote.content} created!`)
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
   }
 
   const anecdoteById = (id) =>
@@ -169,7 +191,7 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <br></br>
-      <Menu anecdotes={anecdotes} addNew={addNew} />
+      <Menu anecdotes={anecdotes} addNew={addNew} notification={notification}/>
       <br></br>
       <Footer />
     </div>
