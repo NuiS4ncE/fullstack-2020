@@ -122,10 +122,10 @@ const CreateNew = (props) => {
 
   const handleClick = (e) => {
     e.preventDefault()
-      content.reset()
-      author.reset()
-      info.reset()
-    
+    content.reset()
+    author.reset()
+    info.reset()
+
   }
 
   return (
@@ -145,11 +145,10 @@ const CreateNew = (props) => {
           url for more info
           <input {...info} />
         </div>
-        <button>create</button>
-      </form>
-      <button onClick={handleClick}>
-        reset
+        <button>create</button> <button onClick={handleClick}>
+          reset
           </button>
+      </form>
     </div>
   )
 
