@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
+//import ReactDOM from 'react-dom'
 import { useField } from './hooks'
 
 import {
@@ -7,7 +7,6 @@ import {
   Switch,
   Route,
   Link,
-  Prompt,
   useParams,
   useHistory
 } from "react-router-dom"
@@ -93,9 +92,10 @@ const CreateNew = (props) => {
   //const [content, setContent] = useState('')
   //const [author, setAuthor] = useState('')
   //const [info, setInfo] = useState('')
-  const content = useField('text')
-  const author = useField('name')
-  const info = useField('link')
+  //const content = useField('text')
+  const { reset: resetField, ...author } = useField('name')
+  const { reset: resetField2, ...info } = useField('link')
+  const { reset: resetField3, ...content } = useField('text')
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -122,10 +122,9 @@ const CreateNew = (props) => {
 
   const handleClick = (e) => {
     e.preventDefault()
-    content.reset()
-    author.reset()
-    info.reset()
-
+    resetField()
+    resetField2()
+    resetField3()
   }
 
   return (
