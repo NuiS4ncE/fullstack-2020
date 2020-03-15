@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import  { useField } from './hooks'
+import { useField } from './hooks'
 
 import {
   BrowserRouter as Router,
@@ -28,7 +28,7 @@ const Menu = (props) => {
           <Anecdote anecdotes={props.anecdotes} />
         </Route>
         <Route path="/create">
-          <CreateNew addNew={props.addNew} notification={props.notification}/>
+          <CreateNew addNew={props.addNew} notification={props.notification} />
         </Route>
         <Route path="/about">
           <About />
@@ -61,8 +61,8 @@ const AnecdoteList = ({ anecdotes }) => (
     <ul>
       {anecdotes.map(anecdote => <li key={anecdote.id}>
         <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
-        </li>
-        )}
+      </li>
+      )}
     </ul>
   </div>
 )
@@ -73,8 +73,8 @@ const About = () => (
     <p>According to Wikipedia:</p>
 
     <em>An anecdote is a brief, revealing account of an individual person or an incident.
-      Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
-      such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
+    Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
+    such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
       An anecdote is "a story with a point."</em>
 
     <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
@@ -99,8 +99,8 @@ const CreateNew = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    
-  
+
+
     props.addNew({
       content: content.value,
       author: author.value,
@@ -118,6 +118,14 @@ const CreateNew = (props) => {
         {message}
       </div>
     )
+  }
+
+  const handleClick = (e) => {
+    e.preventDefault()
+      content.reset()
+      author.reset()
+      info.reset()
+    
   }
 
   return (
@@ -139,6 +147,9 @@ const CreateNew = (props) => {
         </div>
         <button>create</button>
       </form>
+      <button onClick={handleClick}>
+        reset
+          </button>
     </div>
   )
 
@@ -194,7 +205,7 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <br></br>
-      <Menu anecdotes={anecdotes} addNew={addNew} notification={notification}/>
+      <Menu anecdotes={anecdotes} addNew={addNew} notification={notification} />
       <br></br>
       <Footer />
     </div>

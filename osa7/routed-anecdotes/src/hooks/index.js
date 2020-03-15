@@ -8,14 +8,29 @@ export const useField = (type) => {
         
     }
 
+    const reset = () => {
+        setValue('')
+    }
+
+    return {
+        type,
+        value,
+        onChange,
+        reset
+    }
+}
+
+// moduulissa voi olla monta nimettyä eksportia
+/* export const emptyField = (type) => {
+    const [value, setValue] = useState('')
+
+    const onChange = (event) => {
+        setValue(event.target.value)
+    }
+
     return {
         type,
         value,
         onChange
     }
-}
-
-// moduulissa voi olla monta nimettyä eksportia
-export const useAnotherHook = () => {
-
-}
+} */
